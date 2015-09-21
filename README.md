@@ -27,6 +27,10 @@ This application runs top over `MediaStreamRecorder.js`:
 
 > This script helps writing both audio/video files to nodejs disk.
 
+[Merge-Recordings.js](https://github.com/streamproc/Record-Entire-Meeting/blob/master/Merge-Recordings.js):
+
+> This script helps merging/muxing both WAV/WebM into single WebM.
+
 [Concatenate-Recordings.js](https://github.com/streamproc/Record-Entire-Meeting/blob/master/Concatenate-Recordings.js)
 
 > This script helps concatenating all interval based recordings into single WebM file. It runs in node.js server.
