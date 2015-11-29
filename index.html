@@ -1,3 +1,5 @@
+<h1><a href="https://github.com/streamproc/Record-Entire-Meeting">https://github.com/streamproc/Record-Entire-Meeting</a></h1>
+
 <button id="start-recording">Start Recording</button>
 <button id="stop-recording" disabled>Stop Recording</button>
 <hr>
@@ -32,15 +34,21 @@ document.querySelector('#start-recording').onclick = function() {
             userId: 'user-' + randomString,
             UploadInterval: 500, // 500ms blobs
             VideoWidth: 320,
-            VideoHeight: 240,
-            OnComplete: function(fileName) {
-                // --- /uploads/roomid/userid.webm
-                console.debug('File is uploaded; concatenated; merged; and saved: '
-                    + '/uploads'
-                    + '/room-' + randomString 
-                    + '/user-' + randomString + '.webm');
-            }
+            VideoHeight: 240
         });
+
+        RecorderHelper.OnComplete = function(fileName) {
+            // --- /uploads/roomid/userid.webm
+            var src = '/uploads'
+                        + '/room-' + randomString 
+                        + '/user-' + randomString + '.webm';
+            video.src = src;
+            video.play();
+
+            stream.stop();
+
+            console.debug('File is uploaded; concatenated; merged; and saved:', src);
+        };
 
         document.querySelector('#stop-recording').disabled = false;
     }, function(error) {

@@ -1,9 +1,11 @@
 var exec = require('child_process').exec;
 var fs = require('fs');
 var isWindows = !!process.platform.match(/^win/);
-var ConcatenateRecordings = require('./Concatenate-Recordings.js');
+var socket;
 
-module.exports = exports = function(files) {
+module.exports = exports = function(files, _socket) {
+    socket = _socket;
+
     if(isWindows) {
         mergeForWindows(files);
         return;
@@ -49,14 +51,6 @@ function mergeForLinuxOrMac(files, times) {
             fs.unlink(videoFile);
 
             console.log('dev-logs', 'Successfully merged WAV/WebM files from recording interval ' + files.interval + '.');
-
-            // concatenate-all-blobs
-            // this one is NO MORE used
-            // it is handled in "disconnect" event instead
-            if (files.lastIndex) {
-                ConcatenateRecordings(files);
-                return;
-            }
         }
     });
 }
@@ -97,14 +91,6 @@ function mergeForWindows(files, times) {
             fs.unlink(videoFile);
 
             console.log('dev-logs', 'Successfully merged WAV/WebM files from recording interval ' + files.interval + '.');
-
-            // concatenate-all-blobs
-            // this one is NO MORE used
-            // it is handled in "disconnect" event instead
-            if (files.lastIndex) {
-                ConcatenateRecordings(files);
-                return;
-            }
         }
     });
 }

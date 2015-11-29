@@ -13,8 +13,8 @@ var mkdirp = require('mkdirp');
 var fs = require('fs');
 var isWindows = !!process.platform.match(/^win/);
 
-var ConcatenateRecordings = require('./Concatenate-Recordings.js');
 var WriteToDisk = require('./Write-Recordings-To-Disk.js');
+var ConcatenateRecordings = require('./Concatenate-Recordings.js');
 
 // each room is having a unique directory
 // this object stores those info
@@ -96,7 +96,7 @@ function SocketExtender(socket) {
         roomsDirs[files.roomId].usersIndexed[files.userId].interval = files.interval;
 
         // write files to disk
-        WriteToDisk(files);
+        WriteToDisk(files, socket);
 
         // let client know that his blobs are successfully uploaded
         callback();
@@ -108,11 +108,10 @@ function SocketExtender(socket) {
     // all these three events are used to detect if "recording-is-ended"
     // todo: setTimeout should be added in "disconnect" event
     //       and all other events should be removed???
-    socket.on('disconnect', onUserLeaves);
-    socket.on('leave', onUserLeaves);
-    socket.on('stream-stopped', onUserLeaves);
+    // socket.on('disconnect', onRecordingStopped);
+    socket.on('stream-stopped', onRecordingStopped);
 
-    function onUserLeaves() {
+    function onRecordingStopped() {
         // 1) if directory doesn't exists
         // 2) if user doesn't exists
         // then, simply skip the rest
@@ -123,13 +122,19 @@ function SocketExtender(socket) {
         // get the user (file-name, interval)
         var user = roomsDirs[socket.roomId].usersIndexed[socket.userId];
 
+        
+        /*
+        files.lastIndex = files.interval + 1;
+        ConcatenateRecordings(files, socket);
+        */
+
         ConcatenateRecordings({
             fileName: user.fileName,
             lastIndex: user.interval + 1,
             roomId: socket.roomId,
             userId: socket.userId,
             interval: user.interval
-        });
+        }, socket);
 
         // delete users index so that he can record again
         if (!!roomsDirs[socket.roomId] && !!roomsDirs[socket.roomId].usersIndexed[socket.userId]) {

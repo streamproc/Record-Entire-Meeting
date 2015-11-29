@@ -21,10 +21,6 @@ This application runs top over `MediaStreamRecorder.js`:
 * Merge/Mux then Concatenate using Ffmpeg on Node.js server
 * Scale videos at the end into a single grid-like stream so that later viewers are given single file containing all the videos and audios.
 
-# Again, it is NOT functional yet.
-
-> It is very close to single-person longest possible video recording. However please wait for new updates!
-
 # Helper Scripts
 
 [Browser-Recording-Helper.js](https://github.com/streamproc/Record-Entire-Meeting/blob/master/Browser-Recording-Helper.js):
