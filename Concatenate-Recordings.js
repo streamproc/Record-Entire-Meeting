@@ -106,7 +106,7 @@ function concatenateInLinuxOrMac(files, times, fileNotExistsTries) {
                     unlink_merged_files(uploadsFolder + files.fileName, lastIndex);
 
                     // if requested:
-                    // var ScaleRecordings = require('Scale-Recordings.js');
+                    // var ScaleRecordings = require('./Scale-Recordings.js');
                     // ScaleRecordings(files, times);
                 }
             });
@@ -201,10 +201,32 @@ function concatenateInWindows(files, times, fileNotExistsTries) {
                     unlink_merged_files(uploadsFolder + files.fileName, lastIndex);
 
                     /// if requested:
-                    // var ScaleRecordings = require('Scale-Recordings.js');
+                    // var ScaleRecordings = require('./Scale-Recordings.js');
                     // ScaleRecordings(files, times);
                 }
             });
         }
     });
+}
+
+// delete all files from specific user
+function unlink_merged_files(fileName, lastIndex, index) {
+    function unlink_file(_index) {
+        fs.unlink(fileName + '-' + _index + "-merged.webm", function(error) {
+            if (error) {
+                setTimeout(function() {
+                    unlink_merged_files(fileName, lastIndex, _index);
+                }, 5000);
+            }
+        });
+    }
+
+    if (index) {
+        unlink_file(index);
+        return;
+    }
+
+    for (var i = 1; i < lastIndex; i++) {
+        unlink_file(i);
+    }
 }

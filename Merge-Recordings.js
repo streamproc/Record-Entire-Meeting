@@ -1,7 +1,7 @@
 var exec = require('child_process').exec;
 var fs = require('fs');
-var isWindows = !!process.platform.match(/^win/);j
-var ConcatenateRecordings = require('Concatenate-Recordings.js');
+var isWindows = !!process.platform.match(/^win/);
+var ConcatenateRecordings = require('./Concatenate-Recordings.js');
 
 module.exports = exports = function(files) {
     if(isWindows) {
@@ -10,28 +10,6 @@ module.exports = exports = function(files) {
     }
     mergeForLinuxOrMac(files);
 };
-
-// delete all files from specific user
-function unlink_merged_files(fileName, lastIndex, index) {
-    function unlink_file(_index) {
-        fs.unlink(fileName + '-' + _index + "-merged.webm", function(error) {
-            if (error) {
-                setTimeout(function() {
-                    unlink_merged_files(fileName, lastIndex, _index);
-                }, 5000);
-            }
-        });
-    }
-
-    if (index) {
-        unlink_file(index);
-        return;
-    }
-
-    for (var i = 1; i < lastIndex; i++) {
-        unlink_file(i);
-    }
-}
 
 // linux to merge WAV/WebM info single WebM
 function mergeForLinuxOrMac(files, times) {

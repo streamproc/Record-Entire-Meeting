@@ -1,6 +1,6 @@
 var fs = require('fs');
 var isWindows = !!process.platform.match(/^win/);
-var MergeRecordings = require('Merge-Recordings');
+var MergeRecordings = require('./Merge-Recordings.js');
 
 module.exports = exports = function(files) {
     writeToDisk(files);

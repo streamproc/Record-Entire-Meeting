@@ -1,16 +1,10 @@
 module.exports = exports = function(app, successCallback) {
-    var io = require('socket.io').listen(app, {
+    var io = require('socket.io')(app, {
         log: false,
         origins: '*:*'
     });
 
-    io.set('transports', [
-        'websocket', // 'disconnect' EVENT will work only with 'websocket'
-        'xhr-polling',
-        'jsonp-polling'
-    ]);
-
-    io.sockets.on('connection', SocketExtender);
+    io.on('connection', SocketExtender);
 };
 
 
@@ -19,8 +13,8 @@ var mkdirp = require('mkdirp');
 var fs = require('fs');
 var isWindows = !!process.platform.match(/^win/);
 
-var ConcatenateRecordings = require('Concatenate-Recordings');
-var WriteToDisk = require('Write-To-Disk');
+var ConcatenateRecordings = require('./Concatenate-Recordings.js');
+var WriteToDisk = require('./Write-Recordings-To-Disk.js');
 
 // each room is having a unique directory
 // this object stores those info
@@ -102,7 +96,7 @@ function SocketExtender(socket) {
         roomsDirs[files.roomId].usersIndexed[files.userId].interval = files.interval;
 
         // write files to disk
-        WriteToDisk(files):
+        WriteToDisk(files);
 
         // let client know that his blobs are successfully uploaded
         callback();

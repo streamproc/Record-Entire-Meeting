@@ -1,17 +1,25 @@
 # Record Entire Meeting using Pure JavaScript API!
 
+[![npm](https://img.shields.io/npm/v/record-entire-meeting.svg)](https://npmjs.org/package/record-entire-meeting) [![downloads](https://img.shields.io/npm/dm/record-entire-meeting.svg)](https://npmjs.org/package/record-entire-meeting)
+
+```
+npm install record-entire-meeting
+
+node server.js
+# https://127.0.0.1:9001/
+# https://localhost:9001/
+```
+
 This application runs top over `MediaStreamRecorder.js`:
 
 * https://github.com/streamproc/MediaStreamRecorder
-
-> It is NOT functional yet.
 
 # Goals
 
 * Record both audio/video from each user participating in a meeting room.
 * Record all videos from all the participants.
 * Merge/Mux then Concatenate using Ffmpeg on Node.js server
-* Scale videos at the ended into a single grid-like stream so that later viewers are given single file containing all the videos and audios.
+* Scale videos at the end into a single grid-like stream so that later viewers are given single file containing all the videos and audios.
 
 # Again, it is NOT functional yet.
 
@@ -45,4 +53,4 @@ This application runs top over `MediaStreamRecorder.js`:
 
 ## License
 
-[Record-Entire-Meeting](https://github.com/streamproc/Record-Entire-Meeting) library is released under [MIT licence](https://www.webrtc-experiment.com/licence/). Copyright (c) [Muaz Khan](http://www.MuazKhan.com/).
+[Record-Entire-Meeting](https://github.com/streamproc/Record-Entire-Meeting) is released under [MIT licence](https://www.webrtc-experiment.com/licence/). Copyright (c) [Muaz Khan](http://www.MuazKhan.com/).
